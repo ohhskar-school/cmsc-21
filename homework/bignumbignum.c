@@ -1,20 +1,34 @@
 #include <stdio.h>
 
 int main() {
-    int a = 0, b = 1, c, i, n = 10;
-    int arr1[1000], arr2[1000], arr3[1000];
+    int a = 0, b = 1, c, n = 10, arraySize = 20, carry = 0, initNumber = 0;
+    int arrayA[arraySize], arrayB[arraySize], arrayC[arraySize];
+    int index = 0;
 
-    for (i = 0; i < 1000; i++) {
-        arr1[i] = 0;
-        arr2[i] = 0;
-        arr3[i] = 0;
+    do {
+        scanf("%i", &initNumber);
+    } while (initNumber < 0 && initNumber > 1000);
+
+    for (int i = 0; i < arraySize; i++) {
+        arrayA[i] = 0;
+        arrayB[i] = 0;
+        arrayC[i] = 0;
     }
 
-    for(i=0; i<n; i++){
-        c = a + b;
-        a = b;
-        b = c;
+    index = arraySize - 1;
+    while(initNumber != 0){
+        arrayA[index--] = initNumber % 10;
+        initNumber /= 10;
     }
 
-    printf("The %ith element of the fibonacci sequence is: %i\n", n, c);
+    for (int x = 0; x < arraySize; x++) {
+        printf("%i", arrayA[x]);
+    }
+    printf("\n");
+
+    // for (int i = 0; i < n; i++) {
+    //     c = a + b;
+    //     a = b;
+    //     b = c;
+    // }
 }
