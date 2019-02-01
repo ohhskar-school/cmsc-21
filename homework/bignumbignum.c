@@ -9,6 +9,8 @@ int main() {
     int i, j, sum;
     int size = 1000, n = 1000;
     int arrA[size], arrB[size], arrC[size];
+    int indexA, indexB, indexC = indexB = indexA = 0;
+    int lastUsedA, lastUsedB, lastUsedC = lastUsedB = lastUsedA = 0;
 
     // initializing arrays
     for (i = 0; i < size; i++) {
@@ -18,7 +20,8 @@ int main() {
     // initial value for the fibonacci sequence
     arrA[size - 1] = 0;
     arrB[size - 1] = 1;
-
+    lastUsedA = size - 2;
+    lastUsedB = size - 2;
 
     // loop for the nth fibonacci
     for (i = 1; i < n; i++) {
