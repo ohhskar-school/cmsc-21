@@ -11,6 +11,7 @@ int main() {
     int arrA[size], arrB[size], arrC[size];
     int indexA, indexB, indexC = indexB = indexA = 0;
     int lastUsedA, lastUsedB, lastUsedC = lastUsedB = lastUsedA = 0;
+    int digits = 1;
 
     // initializing arrays
     for (i = 0; i < size; i++) {
@@ -31,20 +32,21 @@ int main() {
         }
 
         // loop for the addition
-        for (j = size - 1; j >= 0; j--) {
+        for (j = size - 1; j >= size - digits - 1; j--) {
             sum = arrA[j] + arrB[j];
             // checks for possible carry
             if (sum > 10) {
                 arrA[j - 1] += sum / 10;
                 sum %= 10;
+                if (j == size - digits) {
+                    digits++;
+                }
             }
             arrC[j] = sum;
         }
-
-        // lastUsedC = j;
-
+        
         // loop for the swap
-        for (j = size - 1; j >= 0; j--) {
+        for (j = size - 1; j >= size - digits - 1; j--) {
             // a = b
             arrA[j] = arrB[j];
             // b = c
@@ -55,7 +57,7 @@ int main() {
     printf("The %i fibonacci number is: ", n);
 
     // print
-    for (i = 0; i < size; i++) {
+    for (i = size - digits; i < size ; i++) {
         printf("%i", arrA[i]);
     }
 
