@@ -20,6 +20,7 @@ int main() {
         scanf("%i", &n);
     } while (n < 0);  // checks for negative input
 
+    //magic formula so that it will work
     if (n != 2) {
         n--;
         mod = 0;
