@@ -4,7 +4,7 @@
 // function to convert a decimal number (a number in base 10 to any base)
 // the first argument is the number in base 10, and the the second argument is
 // the desired base
-int decimal(unsigned int, int);
+int decimal(int, int);
 // the two succeeding functions accept the numbers in string format with the int
 // as the base
 void addition(char[], char[], int);
@@ -12,13 +12,14 @@ void addition(char[], char[], int);
 void subtraction(char[], char[], int);
 
 int main() {
-    int decError = 0, choice = 1, base = 2, decAnswer, error,
-        differenceError = error = decAnswer = 0;
-    int leave = 0;
-    unsigned int dec = 0;
-    char decHolder[200], first[200], second[200];
+    int choice = 1, base = 2;
+    int leave, dec, decAnswer, error,
+        differenceError = error = decAnswer = dec = leave = 0;
+    char first[200], second[200];
 
+    // Main Loop
     do {
+        // Menu Loop
         do {
             if (choice < 1 || choice > 3) {
                 printf("\nYou have entered an incorrect input\n");
@@ -35,42 +36,23 @@ int main() {
             scanf("%i", &choice);
         } while (choice < 1 || choice > 3);
 
+        // Switch that selects the functions and asks for info
         switch (choice) {
+            // Base convert case
             case 1:
-                // NEEDS ERROR CHECKING
-                // do {
-                //     switch (decError) {
-                //         case 1:
-                //             printf(
-                //                 "You have entered a value that is greater
-                //                 than an " "unsigned int\n");
-                //             break;
-                //         case 2:
-                //             printf("You have entered a negative value\n");
-                //             break;
-                //         default:
-                //             break;
-                //     }
-                //     decError = 0;
 
-                //     printf(
-                //         "\nEnter a positive integer in decimal that you want
-                //         to " "convert: ");
-                // print the sum on the console
-                //     scanf("%s", &decHolder);
-
-                // 	decLen = strlen(decHolder);
-                //     if (decLen >= 11) {
-                //         decError = 1;
-                //     }
-
-                // } while (decError > 0);
-                // dec = decHolder;
-
-                printf(
-                    "\nEnter a positive integer in decimal that you want to "
-                    "convert: ");
-                scanf("%u", &dec);
+                // Asking for input with error checking
+                do {
+                    if (dec < 0) {
+                        printf(
+                            "\nYou have entered a negative value or a value "
+                            "that overflowed\n");
+                    }
+                    printf(
+                        "\nEnter a positive integer in decimal that you want "
+                        "to convert: ");
+                    scanf("%i", &dec);
+                } while (dec < 0);
 
                 do {
                     if (base < 2 || base > 9) {
@@ -272,18 +254,24 @@ int main() {
     return 0;
 }
 
-int decimal(unsigned int dec, int base) {
-    int i, ans, counter = ans = 0, tens = 1;
-    unsigned int decHolder = dec;
+int decimal(int dec, int base) {
+    int i, ans = 0, tens = 1;
 
     for (i = 0; i < 10; i++, tens *= 10) {
-        ans += (decHolder % base) * tens;
-        if (decHolder / base == 0) {
+        // Gets the remainder and multiplies it by the tens
+        ans += (dec % base) * tens;
+
+        // if the process is finished, it ends the loop
+        if (dec / base == 0) {
             break;
         } else {
-            decHolder /= base;
+            dec /= base;
         }
     }
+
+    // If i == 10 then that means that the loop ended without breaking, this
+    // means that there are more than 10 digits in ans, which cannot fit in an
+    // int
     if (i == 10) {
         ans = -1;
     }
@@ -297,6 +285,8 @@ void addition(char first[], char second[], int base) {
         j, k;
     char answer[answerLen];
 
+    // Loop that starts from the end, and ends when the array in answer is
+    // filled.
     for (i = answerLen - 1, j = firstLen - 1, k = secondLen - 1; i >= 0;
          i--, j--, k--) {
         // Reset Holder
@@ -342,6 +332,8 @@ void addition(char first[], char second[], int base) {
 
     // Prints the answer
     check = 1;
+
+    printf("%s plus %s in base %i is ", first, second, base);
     for (int i = 0; i < answerLen; i++) {
         if (check && answer[i] != '0') {
             check = 0;
@@ -382,7 +374,6 @@ void subtraction(char first[], char second[], int base) {
                 carryNext = 1;
                 holder += base;
             }
-            printf("holder after carry: %i\t", holder);
             if (second[k] >= '0' && second[k] <= '9') {
                 holder -= second[k] - '0';
             } else if (second[k] >= 'A' && second[k] <= 'Z') {
@@ -412,6 +403,8 @@ void subtraction(char first[], char second[], int base) {
 
     // Prints the answer
     check = 1;
+
+    printf("%s minus %s in base %i is ", first, second, base);
     for (int i = 0; i < answerLen; i++) {
         if (check && answer[i] != '0') {
             check = 0;
