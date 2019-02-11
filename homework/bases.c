@@ -351,13 +351,14 @@ void subtraction(char first[], char second[], int base) {
         check = holder = carryNext = carry = 0, i, j, k;
     char answer[answerLen];
 
+    // T420
+    //  223
     for (i = answerLen - 1, j = firstLen - 1, k = secondLen - 1; i >= 0;
          i--, j--, k--) {
         // Reset Holder
         holder = 0;
-        carry = carryNext;
 
-        // Handles the carry from the previous loop
+        carry = carryNext;
 
         // Adds the value in the first number into the holder
         if (first[j] >= '0' && first[j] <= '9') {
@@ -366,27 +367,32 @@ void subtraction(char first[], char second[], int base) {
             holder += ((first[j] - 'A') + 10);
         }
 
-        // If the second value still exists, subtracts it from the holder
-        if (k >= 0) {
-            // Checks if the second value is greater than the first value and
-            // handles the borrowing
-            if (first[j] < second[k]) {
-                carryNext = 1;
-                holder += base;
-            }
-            if (second[k] >= '0' && second[k] <= '9') {
-                holder -= second[k] - '0';
-            } else if (second[k] >= 'A' && second[k] <= 'Z') {
-                holder -= (second[k] - 'A') + 10;
-            }
-        }
-
+        // Handles the carry between loops;
         if (carry) {
             if (holder == 0) {
                 holder = base - 1;
             } else {
                 holder--;
                 carryNext = 0;
+            }
+        }
+
+        // If the second value still exists, subtracts it from the holder
+        if (k >= 0) {
+            // Checks if the second value is greater than the first value and
+            // handles the borrowing
+            if (second[k] >= '0' && second[k] <= '9') {
+                if (holder < second[k] - '0') {
+                    carryNext = 1;
+                    holder += base;
+                }
+                holder -= second[k] - '0';
+            } else if (second[k] >= 'A' && second[k] <= 'Z') {
+                if (holder < second[k] - 'A') {
+                    carryNext = 1;
+                    holder += base;
+                }
+                holder -= (second[k] - 'A') + 10;
             }
         }
 
