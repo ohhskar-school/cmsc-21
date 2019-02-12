@@ -195,7 +195,6 @@ int checkInputs(int day, int month, int year, int testCaseType) {
 }
 
 int checkLeapYear(int year) {
-    int leapYear = 0;
 
     // Checks if the year is divisible by 4
     if (year % 4 == 0) {
@@ -203,17 +202,17 @@ int checkLeapYear(int year) {
         if (year % 100 == 0) {
             // If it is divisible by 100, check if it is divisible by 400
             if (year % 400 == 0) {
-                leapYear = 1;
+                return 1;
             }
         }
 
         // If it is not divisible by 100, then it must be a leap year
         else {
-            leapYear = 1;
+            return 1;
         }
     }
 
-    return leapYear;
+    return 0;
 }
 
 int roundOwn(float input) {
