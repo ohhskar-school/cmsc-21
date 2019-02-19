@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+void intToWord(int);
 char helperIntToRoman(int);
 int helperRomanToInt(char);
-void intToWord(int);
 
 int main() {
     int testCasesNumber = 1, i = 0;
@@ -58,6 +58,16 @@ void intToWord(int input) {
     char suffix[][9] = {"", "Thousand", "Million", "Billion"};
     int divisors[] = {0, 1000, 1000000, 1000000000};
     int holder = 0;
+
+    if(input < 0){
+        printf("Negative ");
+        input *= -1;
+    }
+
+    if (input == 0){
+        printf("Zero\n");
+        return;
+    }
 
     for (int i = 3; i >= 0; i--) {
         if (input >= divisors[i]) {
