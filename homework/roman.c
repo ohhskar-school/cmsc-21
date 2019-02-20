@@ -2,8 +2,10 @@
 #include <string.h>
 
 void intToWord(int);
-char helperIntToRoman(int);
-int helperRomanToInt(char);
+void intToRoman(int);
+void romanToInt(char[]);
+int romanToIntMap(char);
+int romanToIntChecker(char[]);
 
 int main() {
     int testCasesNumber = 1, i = 0;
@@ -15,10 +17,10 @@ int main() {
         printf("Enter the number of test cases: ");
         scanf("%i", &testCasesNumber);
     } while (testCasesNumber < 1);
-
     for (i = 0; i < testCasesNumber; i++) {
         int choice = 1;
-
+        int input = 0;
+        char inputString[15];
         do {
             if (choice < 1 || choice > 3) {
                 printf("Please select a number between 1 and 3\n");
@@ -32,12 +34,32 @@ int main() {
         } while (choice < 1 || choice > 3);
 
         switch (choice) {
-            case 1: {
-                int input;
+            case 1:
                 printf("Enter the Integer to be converted to words: ");
                 scanf("%i", &input);
                 intToWord(input);
-            }
+                break;
+            case 2:
+                printf("Enter the Integer to be converted to Roman Numerals: ");
+                scanf("%i", &input);
+                if (input >= 1 || input <= 3000) {
+                    intToRoman(input);
+                } else {
+                    printf("INVALID\n");
+                }
+                break;
+            case 3:
+                printf("Enter the Roman Numeral to be converted to an int: ");
+                scanf("%s", &inputString);
+                if (!romanToIntChecker(inputString)) {
+                    romanToInt(inputString);
+                } else {
+                    printf("INVALID\n");
+                }
+                break;
+            default:
+                printf("How did you get here?");
+                return 1;
         }
     }
 
@@ -59,19 +81,18 @@ void intToWord(int input) {
     int divisors[] = {0, 1000, 1000000, 1000000000};
     int holder = 0;
 
-    if(input < 0){
+    if (input < 0) {
         printf("Negative ");
         input *= -1;
     }
 
-    if (input == 0){
+    if (input == 0) {
         printf("Zero\n");
         return;
     }
 
     for (int i = 3; i >= 0; i--) {
         if (input >= divisors[i]) {
-
             holder = divisors[i] ? input / divisors[i] : input;
 
             if (holder >= 100) {
@@ -86,58 +107,82 @@ void intToWord(int input) {
                     printf("%s ", tens[holder / 10]);
                 }
                 holder %= 10;
-            }
-            else if (holder > 0) {
+            } else if (holder > 0) {
                 printf("%s ", ones[holder % 10]);
             }
             printf("%s ", suffix[i]);
 
-            input %= divisors[i] ? divisors[i]: 1;
+            input %= divisors[i] ? divisors[i] : 1;
         }
     }
     printf("\n");
 }
 
+void intToRoman(int input) {
+    int intMap[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    char romanMap[][3] = {"M",  "CM", "D",  "CD", "C",  "XC", "L",
+                          "XL", "X",  "IX", "V",  "IV", "I"};
+    for (int i = 0; input != 0; i++) {
+        while (input >= intMap[i]) {
+            printf("%s", romanMap[i]);
+            input -= intMap[i];
+        }
+    }
+    printf("\n");
+}
 
-int helperRomanToInt(char roman) {
+void romanToInt(char input[]) {
+    int sum = 0;
+    int currentNumber = 0;
+    int lastNumber = 5000;
+
+    for (int i = 0; input[i] != 0; i++) {
+        currentNumber = romanToIntMap(input[i]);
+        sum += currentNumber;
+        if (lastNumber < currentNumber) {
+            sum -= lastNumber * 2;
+        }
+        lastNumber = currentNumber;
+    }
+    printf("%i\n", sum);
+}
+
+int romanToIntMap(char roman) {
     switch (roman) {
-        case 'I':
-            return 1;
-        case 'V':
-            return 5;
-        case 'X':
-            return 10;
-        case 'L':
-            return 50;
-        case 'C':
-            return 100;
-        case 'D':
-            return 500;
         case 'M':
             return 1000;
-        default:
-            return -1;
+        case 'D':
+            return 500;
+        case 'C':
+            return 100;
+        case 'L':
+            return 50;
+        case 'X':
+            return 10;
+        case 'V':
+            return 5;
+        case 'I':
+            return 1;
     }
 }
 
-char helperIntToRoman(int num) {
-    switch (num) {
-        case 1:
-            return 'I';
-        case 5:
-            return 'V';
-        case 10:
-            return 'X';
-        case 50:
-            return 'L';
-        case 100:
-            return 'C';
-        case 500:
-            return 'D';
-        case 1000:
-            return 'M';
-        default:
-            return '!';
-            break;
+int romanToIntChecker(char input[]) {
+    char romanMap[] = {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
+    int error = 1;
+    prevRepeat = 0;
+    for (int i = 0; input[i] != 0; i++) {
+        error = 1;
+        for (int j = 0; j < 7; j++) {
+            if (input[i] == romanMap[j]) {
+                error = 0;
+                break;
+            }
+        }
+
+        if (error) {
+            return 1;
+        }
     }
+
+    return 0;
 }
