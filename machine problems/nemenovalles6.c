@@ -15,18 +15,18 @@ int main() {
     for (i = 0; i < testCasesNumber; i++) {
         scanf("%i", &rows);
         scanf("%i", &cols);
-        for (j = 0; j < rows; j++) {
-            for (k = 0; k < cols; k++) {
-                scanf("%i", &holder);
-                image[j][k] = holder;
+        if (rows < 1 || cols < 1) {
+            printf("INVALID INPUT");
+        } else {
+            for (j = 0; j < rows; j++) {
+                for (k = 0; k < cols; k++) {
+                    scanf("%i", &holder);
+                    image[j][k] = holder;
+                }
             }
+            label(image, rows, cols, 0, 0, 1);
+            display(image, rows, cols);
         }
-        printf("\n");
-        display(image, rows, cols);
-        printf("\n");
-        label(image, rows, cols, 0, 0, 1);
-        printf("\n");
-        display(image, rows, cols);
     }
 
     return 0;
