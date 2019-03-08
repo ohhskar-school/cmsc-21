@@ -67,6 +67,7 @@ int labelExplode(int image[100][100], int rows, int cols, int i, int j,
     if (j + 1 < cols && image[i][j + 1] == 1) {
         labelExplode(image, rows, cols, i, j + 1, labelNum);
     }
+    
     if (i + 1 < rows) {
         if (j - 1 >= 0 && image[i + 1][j - 1] == 1) {
             labelExplode(image, rows, cols, i + 1, j - 1, labelNum);
@@ -76,6 +77,18 @@ int labelExplode(int image[100][100], int rows, int cols, int i, int j,
         }
         if (j + 1 < cols && image[i + 1][j + 1] == 1) {
             labelExplode(image, rows, cols, i + 1, j + 1, labelNum);
+        }
+    }
+
+    if (i - 1 >= 0) {
+        if (j - 1 >= 0 && image[i - 1][j - 1] == 1) {
+            labelExplode(image, rows, cols, i - 1, j - 1, labelNum);
+        }
+        if (image[i - 1][j] == 1) {
+            labelExplode(image, rows, cols, i - 1, j, labelNum);
+        }
+        if (j + 1 < cols && image[i - 1][j + 1] == 1) {
+            labelExplode(image, rows, cols, i - 1, j + 1, labelNum);
         }
     }
 
