@@ -16,7 +16,7 @@ int main() {
         scanf("%i", &rows);
         scanf("%i", &cols);
         if (rows < 1 || cols < 1) {
-            printf("INVALID INPUT");
+            printf("INVALID INPUT\n");
         } else {
             for (j = 0; j < rows; j++) {
                 for (k = 0; k < cols; k++) {
@@ -26,6 +26,7 @@ int main() {
             }
             label(image, rows, cols, 0, 0, 1);
             display(image, rows, cols);
+            printf("\n");
         }
     }
 
