@@ -79,6 +79,12 @@ void init(term *t, int initValue) {
 void display(term t) {
     if (t.exponent == 0) {
         printf("%i\n", t.coefficient);
+    } else if (t.exponent == 1) {
+        if (t.coefficient != 1) {
+            printf("%ix\n", t.coefficient);
+        } else {
+            printf("x\n");
+        }
     } else if (t.coefficient == 1) {
         printf("x^%i\n", t.exponent);
     } else {
